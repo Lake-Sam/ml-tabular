@@ -1,4 +1,4 @@
-# ml-cookiecutter-tabular
+# ml-tabular
 
 End-to-end template for tabular classification with **Hydra + DVC + MLflow + FastAPI**.
 
