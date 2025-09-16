@@ -1,0 +1,52 @@
+stages:
+  get_data:
+    cmd: python -m src.data.download
+    deps:
+      - src/data/download.py
+      - configs/data/bank_marketing.yaml
+    outs:
+      - data/raw
+
+  prepare:
+    cmd: python -m src.data.prepare
+    deps:
+      - src/data/prepare.py
+      - data/raw
+      - configs/data/bank_marketing.yaml
+    outs:
+      - data/interim
+
+  split:
+    cmd: python -m src.data.split
+    deps:
+      - src/data/split.py
+      - data/interim
+    outs:
+      - data/processed/train.parquet
+      - data/processed/valid.parquet
+      - data/processed/test.parquet
+
+  train:
+    cmd: python -m src.pipelines.train_pipeline
+    deps:
+      - src/pipelines/train_pipeline.py
+      - src/models/train.py
+      - src/models/metrics.py
+      - configs/config.yaml
+      - configs/model/lightgbm.yaml
+      - data/processed/train.parquet
+      - data/processed/valid.parquet
+    outs:
+      - models/latest
+
+  evaluate:
+    cmd: python -m src.pipelines.evaluate_pipeline
+    deps:
+      - src/pipelines/evaluate_pipeline.py
+      - src/models/predict.py
+      - src/models/explain.py
+      - data/processed/test.parquet
+      - models/latest
+    outs:
+      - data/processed/eval_report.json
+      - data/processed/plots
