@@ -1,0 +1,30 @@
+name: bank_marketing
+url: "https://archive.ics.uci.edu/ml/machine-learning-databases/00222/bank-additional.zip"
+target: y
+id_column: null
+test_size: 0.2
+random_state: 42
+categorical:
+  - job
+  - marital
+  - education
+  - default
+  - housing
+  - loan
+  - contact
+  - month
+  - day_of_week
+  - poutcome
+numerical:
+  - age
+  - duration
+  - campaign
+  - pdays
+  - previous
+  - emp.var.rate
+  - cons.price.idx
+  - cons.conf.idx
+  - euribor3m
+  - nr.employed
+positive_class: "yes"
+class_weights: null

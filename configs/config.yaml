@@ -1,0 +1,8 @@
+defaults:
+  - paths: paths
+  - logging: logging
+  - data: bank_marketing
+  - model: lightgbm
+  - train: defaults
+  - eval: defaults
+  - api: defaults

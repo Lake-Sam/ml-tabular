@@ -1,0 +1,5 @@
+raw_dir: data/raw
+interim_dir: data/interim
+processed_dir: data/processed
+models_dir: ${oc.env:MODEL_DIR,models}
+mlruns_dir: ${oc.env:MLFLOW_TRACKING_URI,mlruns}
