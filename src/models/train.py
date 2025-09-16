@@ -13,11 +13,10 @@ from lightgbm import LGBMClassifier
 from sklearn.pipeline import Pipeline
 from xgboost import XGBClassifier
 
+from src import settings
 from src.data.features import make_preprocess
 from src.models.calibrate import calibrate
 from src.models.metrics import compute_metrics
-from src.settings import (MLFLOW_EXPERIMENT_NAME, MLFLOW_TRACKING_URI,
-                          MODELS_DIR)
 
 
 def _load_xy(
@@ -48,8 +47,8 @@ def _build_estimator(cfg) -> Pipeline:
 
 
 def main() -> None:
-    mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
-    mlflow.set_experiment(MLFLOW_EXPERIMENT_NAME)
+    mlflow.set_tracking_uri(settings.MLFLOW_TRACKING_URI)
+    mlflow.set_experiment(settings.MLFLOW_EXPERIMENT_NAME)
 
     with initialize(version_base=None, config_path="../../configs"):
         cfg = compose(config_name="config")
@@ -73,7 +72,7 @@ def main() -> None:
         mlflow.log_params(dict(cfg.model.params))
         mlflow.log_param("model_type", cfg.model.type)
 
-        models_dir = Path(MODELS_DIR)
+        models_dir = Path(settings.MODELS_DIR)
         models_dir.mkdir(parents=True, exist_ok=True)
         model_path = models_dir / run.info.run_id
         mlflow.sklearn.save_model(estimator, model_path)
